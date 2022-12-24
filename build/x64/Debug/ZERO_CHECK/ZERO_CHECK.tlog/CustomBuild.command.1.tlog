@@ -1,0 +1,10 @@
+^E:\AURORA\AURORA\BUILD\CMAKEFILES\6B4C29215F6B154E93B74B7948E42327\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Aurora/Aurora -BE:/Aurora/Aurora/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/Aurora/Aurora/build/Aurora.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

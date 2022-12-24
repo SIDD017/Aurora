@@ -1,0 +1,10 @@
+^E:\AURORA\AURORA\DEPENDENCIES\GLFW\TESTS\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Aurora/Aurora -BE:/Aurora/Aurora/build --check-stamp-file E:/Aurora/Aurora/build/dependencies/glfw/tests/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
