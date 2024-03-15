@@ -20,7 +20,7 @@ Engine::Engine() {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-  context->window = glfwCreateWindow(1280, 720, "Aurora", NULL, NULL);
+  context->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Aurora", NULL, NULL);
 
   if (!(context->window)) {
     std::cout << "ERROR: Failed to create GLFW window";
@@ -58,9 +58,41 @@ void Engine::processInput(GLFWwindow *window) {
   }
 }
 
-/* Main Render loop */
+void Engine::init_shaders() {
+  shaders = new Shader("src/shaders/test_vert.glsl", "src/shaders/test_frag.glsl");
+
+  float vertices[] = {
+    -0.5f, -0.5f, 0.0f, // left  
+     0.5f, -0.5f, 0.0f, // right 
+     0.0f,  0.5f, 0.0f  // top
+  };
+
+  unsigned int VBO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  glBindVertexArray(VAO);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
+  
+}
+
+void Engine::draw() {
+  shaders->use_shader();
+  glBindVertexArray(VAO);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
 void Engine::execute() {
-  /* Loop until the user closes the window */
+
+  init_shaders();
+  /* Main Render loop */
   while (!glfwWindowShouldClose(context->window)) {
 
     context->UI->overlay();
@@ -68,6 +100,11 @@ void Engine::execute() {
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+
+    /* If draw callback is not NULL, the render the scene */
+    draw();
+
+    /* If scene graph is not NULL then render the scene */
 
     /* ImGui Render */
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -78,6 +115,21 @@ void Engine::execute() {
     /* Poll for and process events */
     glfwPollEvents();
   }
+
+  /* Cleanup all allocated memory to prevent leaks */
+  delete shaders;
 }
 
 } // namespace Aurora
+
+
+
+/** TODO:
+ * - Shader Class
+ * - Hello Triangle
+ * - Camera class
+ * - Model Class
+ * - Mesh class
+ * - Scene graph
+ * - Basic UI abstraction / wrapper for ImGUI
+*/

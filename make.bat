@@ -3,4 +3,7 @@ cmake ../
 cmake --build ./
 cd bin
 cd Debug
-Aurora
+cd ..
+cd ..
+cd ..
+start ./build/bin/Debug/Aurora

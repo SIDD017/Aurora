@@ -3,6 +3,7 @@
 
 #include "UI/UI.h"
 #include "data/scene.h"
+#include "engine/Shader.h"
 
 /* Remember to always include GLAD before GLFW. */
 #include <glad/glad.h>
@@ -13,6 +14,9 @@
 #include <stb_image.h>
 
 #include <iostream>
+
+#define SCR_WIDTH 1280
+#define SCR_HEIGHT 720
 
 namespace Aurora {
 
@@ -25,7 +29,9 @@ struct Context {
 class Engine {
 private:
   Context *context;
-
+  /* TODO: Chande this to an array or vector of shaders. */
+  Shader *shaders;
+  unsigned int VAO;
 public:
   Engine();
   ~Engine();
@@ -37,6 +43,8 @@ public:
 
   /* Controller Layer */
   void execute();
+  void init_shaders();
+  void draw();
 };
 } // namespace Aurora
 

@@ -39,13 +39,13 @@ Shader::Shader(const char *vertex_path, const char *fragment_path, const char *g
 	fragment_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     // Read GLSL code from shader files
     try {
+        std::cout << vertex_path << std::endl;
+        std::cout << fragment_path << std::endl;
         vertex_file.open(vertex_path);
         fragment_file.open(fragment_path);
         std::stringstream v_shader_stream, g_shader_stream, f_shader_stream;
-
         v_shader_stream << vertex_file.rdbuf();
         f_shader_stream << fragment_file.rdbuf();
-
         vertex_file.close();
         fragment_file.close();
 
